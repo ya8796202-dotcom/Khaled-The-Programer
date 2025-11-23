@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تطبيق تعليم البرمجة والتشفير</title>
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2c3e50;
+            --success-color: #2ecc71;
+            --warning-color: #f39c12;
+            --danger-color: #e74c3c;
+            --light-bg: #f8f9fa;
+            --dark-text: #2c3e50;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f0f8ff;
+            color: var(--dark-text);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            padding: 20px 0;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        
+        .tab-btn {
+            flex: 1;
+            min-width: 150px;
+            padding: 15px 20px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: var(--secondary-color);
+            transition: all 0.3s ease;
+        }
+        
+        .tab-btn:hover {
+            background-color: var(--light-bg);
+        }
+        
+        .tab-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .tab-content {
+            display: none;
+            padding: 30px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            min-height: 500px;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .section-title {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--light-bg);
+            padding-bottom: 10px;
+        }
+        
+        .card {
+            background-color: var(--light-bg);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        
+        .card h3 {
+            color: var(--secondary-color);
+            margin-bottom: 15px;
+        }
+        
+        .code-block {
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+        }
+        
+        .tool-section {
+            margin: 30px 0;
+        }
+        
+        .input-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #2980b9;
+        }
+        
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #e8f4fc;
+            border-radius: 5px;
+            border-right: 4px solid var(--primary-color);
+        }
+        
+        .password-strength {
+            height: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            transition: all 0.3s;
+        }
+        
+        .weak {
+            background-color: var(--danger-color);
+            width: 30%;
+        }
+        
+        .medium {
+            background-color: var(--warning-color);
+            width: 60%;
+        }
+        
+        .strong {
+            background-color: var(--success-color);
+            width: 100%;
+        }
+        
+        .quiz-option {
+            display: block;
+            margin: 10px 0;
+            padding: 10px;
+            background-color: var(--light-bg);
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .quiz-option:hover {
+            background-color: #e2e6ea;
+        }
+        
+        .quiz-option.selected {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background-color: var(--primary-color);
+            width: 0%;
+            transition: width 0.5s;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+            color: var(--secondary-color);
+            border-top: 1px solid #ddd;
+        }
+        
+        @media (max-width: 768px) {
+            .tab-btn {
+                min-width: 100%;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>تطبيق تعليم البرمجة والتشفير</h1>
+            <p class="subtitle">مرحباً بك في رحلة تعلم البرمجة، التشفير، وأمان كلمات السر</p>
+        </header>
+        
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="welcome">الرئيسية</button>
+            <button class="tab-btn" data-tab="programming">تعلم البرمجة</button>
+            <button class="tab-btn" data-tab="encryption">التشفير</button>
+            <button class="tab-btn" data-tab="passwords">كلمات السر</button>
+            <button class="tab-btn" data-tab="quiz">اختبار معلوماتك</button>
+        </div>
+        
+        <!-- تبويب الترحيب -->
+        <div id="welcome" class="tab-content active">
+            <h2 class="section-title">مرحباً بك في تطبيق تعليم البرمجة والتشفير</h2>
+            
+            <div class="card">
+                <h3>ما الذي ستتعلمه هنا؟</h3>
+                <p>هذا التطبيق التفاعلي سيساعدك على فهم:</p>
+                <ul style="margin: 15px 0; padding-right: 20px;">
+                    <li>أساسيات البرمجة للمبتدئين</li>
+                    <li>مفاهيم التشفير والأمان الرقمي</li>
+                    <li>إنشاء وإدارة كلمات سر قوية</li>
+                    <li>اختبار معلوماتك من خلال التمارين التفاعلية</li>
+                </ul>
+                <p>اختر التبويب المناسب لتبدأ رحلة التعلم!</p>
+            </div>
+            
+            <div class="card">
+                <h3>نصائح للبداية</h3>
+                <p>لتحقيق أقصى استفادة من هذا التطبيق:</p>
+                <ul style="margin: 15px 0; padding-right: 20px;">
+                    <li>ابدأ بتبويب "تعلم البرمجة" إذا كنت مبتدئاً</li>
+                    <li>جرب الأدوات العملية في تبويبي "التشفير" و"كلمات السر"</li>
+                    <li>اختبر معلوماتك في تبويب "اختبار معلوماتك"</li>
+                    <li>لا تتردد في تجربة الأكواد بنفسك</li>
+                </ul>
+            </div>
+            
+            <div style="text-align: center; margin-top: 30px; font-size: 4rem; color: var(--primary-color);">
+                &lt;/&gt;
+            </div>
+        </div>
+        
+        <!-- تبويب تعلم البرمجة -->
+        <div id="programming" class="tab-content">
+            <h2 class="section-title">تعلم أساسيات البرمجة</h2>
+            
+            <div class="card">
+                <h3>ما هي البرمجة؟</h3>
+                <p>البرمجة هي عملية كتابة تعليمات لأجهزة الكمبيوتر لتنفيذ مهام محددة.</p>
+                <p>المبرمجون يستخدمون لغات برمجة مثل Python, Java, C++ لكتابة هذه التعليمات.</p>
+                <p>البرمجة تساعد في حل المشكلات وإنشاء تطبيقات ومواقع إلكترونية وألعاب وغيرها.</p>
+            </div>
+            
+            <div class="card">
+                <h3>المتغيرات (Variables)</h3>
+                <p>المتغيرات هي أماكن في الذاكرة لتخزين البيانات.</p>
+                <div class="code-block">
+// في لغة JavaScript<br>
+let name = "أحمد";  // نص<br>
+let age = 25;        // رقم صحيح<br>
+let height = 1.75;   // رقم عشري<br>
+let isStudent = true;  // قيمة منطقية
+                </div>
+                <p>يمكن تغيير قيمة المتغير لاحقاً في البرنامج.</p>
+            </div>
+            
+            <div class="card">
+                <h3>الشروط (Conditionals)</h3>
+                <p>تستخدم الشروط لاتخاذ قرارات في البرنامج.</p>
+                <div class="code-block">
+let age = 18;<br>
+if (age >= 18) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;console.log("يمكنك التصويت");<br>
+} else {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;console.log("لا يمكنك التصويت بعد");<br>
+}
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3>الحلقات التكرارية (Loops)</h3>
+                <p>تستخدم الحلقات لتكرار مجموعة من التعليمات.</p>
+                <div class="code-block">
+// مثال لحلقة for<br>
+for (let i = 0; i < 5; i++) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;console.log("مرحباً " + i);<br>
+}<br><br>
+// مثال لحلقة while<br>
+let count = 0;<br>
+while (count < 5) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;console.log("العدد: " + count);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;count++;<br>
+}
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3>الدوال (Functions)</h3>
+                <p>الدوال تساعد في تنظيم الكود وإعادة استخدامه.</p>
+                <div class="code-block">
+function greet(name) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;return "مرحباً " + name;<br>
+}<br><br>
+let message = greet("أحمد");<br>
+console.log(message);  // يطبع: مرحباً أحمد
+                </div>
+            </div>
+        </div>
+        
+        <!-- تبويب التشفير -->
+        <div id="encryption" class="tab-content">
+            <h2 class="section-title">مقدمة في التشفير</h2>
+            
+            <div class="card">
+                <h3>ما هو التشفير؟</h3>
+                <p>التشفير هو عملية تحويل المعلومات إلى شكل غير مفهوم لحماية سريتها.</p>
+                
+                <h4 style="margin-top: 15px;">أنواع التشفير:</h4>
+                <ul style="margin: 15px 0; padding-right: 20px;">
+                    <li><strong>التشفير المتماثل:</strong> يستخدم نفس المفتاح للتشفير وفك التشفير</li>
+                    <li><strong>التشفير غير المتماثل:</strong> يستخدم مفتاحين (عام وخاص)</li>
+                </ul>
+                
+                <p>التشفير يحمي بياناتك أثناء نقلها عبر الإنترنت ويحمي خصوصيتك.</p>
+            </div>
+            
+            <div class="tool-section">
+                <h3 class="section-title">أدوات التشفير العملية</h3>
+                
+                <div class="card">
+                    <h3>تشفير النص</h3>
+                    <div class="input-group">
+                        <label for="encrypt-text">أدخل النص للتشفير:</label>
+                        <textarea id="encrypt-text" rows="3" placeholder="اكتب النص الذي تريد تشفيره هنا"></textarea>
+                    </div>
+                    <button id="encrypt-btn">تشفير النص</button>
+                    <div id="encrypt-result" class="result" style="display: none;">
+                        <strong>النص المشفر:</strong> <span id="encrypted-text"></span>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3>فك التشفير</h3>
+                    <div class="input-group">
+                        <label for="decrypt-text">أدخل النص لفك التشفير:</label>
+                        <textarea id="decrypt-text" rows="3" placeholder="اكتب النص المشفر هنا"></textarea>
+                    </div>
+                    <button id="decrypt-btn">فك التشفير</button>
+                    <div id="decrypt-result" class="result" style="display: none;">
+                        <strong>النص الأصلي:</strong> <span id="decrypted-text"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- تبويب كلمات السر -->
+        <div id="passwords" class="tab-content">
+            <h2 class="section-title">كلمات سر قوية</h2>
+            
+            <div class="card">
+                <h3>أهمية كلمات السر القوية</h3>
+                <p>كلمات السر القوية تحمي حساباتك من الاختراق والوصول غير المصرح به.</p>
+                
+                <h4 style="margin-top: 15px;">مواصفات كلمة السر القوية:</h4>
+                <ul style="margin: 15px 0; padding-right: 20px;">
+                    <li>طول لا يقل عن 12 حرفاً</li>
+                    <li>تحتوي على أحرف كبيرة وصغيرة</li>
+                    <li>تحتوي على أرقام ورموز خاصة</li>
+                    <li>لا تحتوي على معلومات شخصية يسهل تخمينها</li>
+                    <li>مختلفة لكل حساب</li>
+                </ul>
+                
+                <p>استخدم مدير كلمات السر لتذكر كلمات سر قوية وفريدة لكل موقع.</p>
+            </div>
+            
+            <div class="tool-section">
+                <h3 class="section-title">مولد كلمات السر</h3>
+                
+                <div class="card">
+                    <div class="input-group">
+                        <label for="password-length">طول كلمة السر:</label>
+                        <input type="range" id="password-length" min="8" max="20" value="12">
+                        <span id="length-value">12</span> حرف
+                    </div>
+                    
+                    <button id="generate-password">إنشاء كلمة سر</button>
+                    
+                    <div class="input-group" style="margin-top: 20px;">
+                        <label for="generated-password">كلمة السر المولدة:</label>
+                        <input type="text" id="generated-password" readonly>
+                    </div>
+                    
+                    <div id="password-strength-container" style="margin-top: 15px;">
+                        <label>قوة كلمة السر:</label>
+                        <div class="password-strength weak" id="password-strength"></div>
+                        <span id="strength-text">ضعيفة</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3>نصائح أمان إضافية</h3>
+                <ul style="margin: 15px 0; padding-right: 20px;">
+                    <li>لا تستخدم نفس كلمة السر لأكثر من حساب</li>
+                    <li>استخدم المصادقة الثنائية عندما تكون متاحة</li>
+                    <li>غير كلمات السر بانتظام</li>
+                    <li>لا تشارك كلمات السر مع أحد</li>
+                    <li>احذر من رسائل التصيد الاحتيالي</li>
+                    <li>تأكد من استخدام اتصال آمن (HTTPS) عند إدخال كلمات السر</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- تبويب الاختبار -->
+        <div id="quiz" class="tab-content">
+            <h2 class="section-title">اختبار معلوماتك</h2>
+            
+            <div id="quiz-container">
+                <div id="quiz-intro">
+                    <div class="card">
+                        <h3>اختبر معرفتك في البرمجة والتشفير</h3>
+                        <p>هذا الاختبار يتكون من 5 أسئلة تغطي مواضيع البرمجة الأساسية، التشفير، وأمان كلمات السر.</p>
+                        <p>اختر الإجابة الصحيحة لكل سؤال ثم انقر على "التالي" للمتابعة.</p>
+                        <button id="start-quiz" style="margin-top: 20px;">بدء الاختبار</button>
+                    </div>
+                </div>
+                
+                <div id="quiz-questions" style="display: none;">
+                    <div class="progress-bar">
+                        <div class="progress" id="quiz-progress"></div>
+                    </div>
+                    
+                    <div class="card">
+                        <h3 id="question-text">السؤال يظهر هنا</h3>
+                        
+                        <div id="options-container">
+                            <!-- الخيارات تظهر هنا dynamically -->
+                        </div>
+                        
+                        <button id="next-question" style="margin-top: 20px;">التالي</button>
+                    </div>
+                </div>
+                
+                <div id="quiz-results" style="display: none;">
+                    <div class="card">
+                        <h3>نتيجة الاختبار</h3>
+                        <p id="score-text">لقد حصلت على X من Y إجابة صحيحة</p>
+                        <p id="result-message">رسالة النتيجة تظهر هنا</p>
+                        <button id="restart-quiz" style="margin-top: 20px;">إعادة الاختبار</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>تطبيق تعليم البرمجة والتشفير &copy; 2023 - تم التصميم للأغراض التعليمية</p>
+        </footer>
+    </div>
+
+    <script>
+        // بيانات التطبيق
+        const quizQuestions = [
+            {
+                question: "ما هي وظيفة المتغيرات في البرمجة؟",
+                options: [
+                    "تخزين البيانات",
+                    "طباعة النتائج",
+                    "تنفيذ العمليات الحسابية فقط",
+                    "إنشاء واجهات المستخدم"
+                ],
+                answer: 0
+            },
+            {
+                question: "أي من هذه يعتبر كلمة سر قوية؟",
+                options: [
+                    "123456",
+                    "password",
+                    "Ahmed1990",
+                    "T#x9$vL2!qP8*eR"
+                ],
+                answer: 3
+            },
+            {
+                question: "ما هو التشفير؟",
+                options: [
+                    "عملية حذف البيانات",
+                    "تحويل المعلومات إلى شكل غير مفهوم",
+                    "نسخ البيانات احتياطياً",
+                    "ضغط الملفات لتقليل حجمها"
+                ],
+                answer: 1
+            },
+            {
+                question: "ما فائدة الحلقات التكرارية في البرمجة؟",
+                options: [
+                    "إيقاف البرنامج",
+                    "تخزين البيانات",
+                    "تكرار مجموعة من التعليمات",
+                    "إنشاء رسائل خطأ"
+                ],
+                answer: 2
+            },
+            {
+                question: "ما هي أفضل ممارسة لإدارة كلمات السر؟",
+                options: [
+                    "استخدام نفس كلمة السر لجميع الحسابات",
+                    "كتابة كلمات السر على ورقة وحفظها في الدرج",
+                    "استخدام كلمات سر فريدة وقوية لكل حساب",
+                    "استخدام تاريخ الميلاد ككلمة سر"
+                ],
+                answer: 2
+            }
+        ];
+
+        // متغيرات التطبيق
+        let currentTab = 'welcome';
+        let currentQuestion = 0;
+        let userScore = 0;
+        let userAnswers = [];
+
+        // تهيئة التطبيق عند تحميل الصفحة
+       اسم المؤسس"خالدمختار"
